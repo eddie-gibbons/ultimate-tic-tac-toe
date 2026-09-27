@@ -9,4 +9,3 @@ local board = require("board")
 --    - Create ASCI art for board wins
 
 board:print()
-
