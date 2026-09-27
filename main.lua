@@ -1,5 +1,4 @@
-local keyval = require("keyval")
-local board = require("board")
+local game = require('game')
 
 -- TODO: 
 --    - Create Game Loop
@@ -7,9 +6,4 @@ local board = require("board")
 --       - Play move 
 --       - Receive move 
 
-
-setup()
-
-board:add(1,1, 'X')
-
-board:print()
+game.init()

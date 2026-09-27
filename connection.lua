@@ -82,12 +82,12 @@ end
 
 function connection.receive()
     local body = keyval.get(connection.code)
-    if (body[1] ~= connection.outboundPlayer) then 
+    if (string.sub(body,1,1) ~= connection.outboundPlayer) then 
         socket.sleep(5)
         return connection.receive()
     end
 
-    return tonumber(body[2]), tonumber(body[3])
+    return tonumber(string.sub(body,2,2)), tonumber(string.sub(body,3,3))
 end
 
 return connection
