@@ -87,7 +87,7 @@ function connection.receive()
         return connection.receive()
     end
 
-    return (tonumber body[2]), (tonumber body[3])
+    return tonumber(body[2]), tonumber(body[3])
 end
 
 return connection
