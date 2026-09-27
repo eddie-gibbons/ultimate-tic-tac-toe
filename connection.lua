@@ -83,7 +83,7 @@ end
 function connection.receive()
     local body = keyval.get(connection.code)
     if (string.sub(body,1,1) ~= connection.outboundPlayer) then 
-        socket.sleep(5)
+        socket.sleep(2)
         return connection.receive()
     end
 
