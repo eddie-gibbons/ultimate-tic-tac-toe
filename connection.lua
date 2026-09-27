@@ -1,3 +1,6 @@
+local keyval = require("keyval")
+local socket = require("socket")
+
 local connection = {}
 
 local function getGameCode()
@@ -7,28 +10,72 @@ end
 function connection.setup()
     io.write("   1) Join Game\n   2) Create Game\n")
     local input = io.read()
+    connection.code = getGameCode()
     if (input ~= '1' and input ~= '2') then 
         io.write("Please Enter '1' or '2'\n\n")
         return connection.setup()
-    elseif (input == '1')
-        return connection.join(getGameCode())
-    elseif (input == '2')
-        return connection.create(getGameCode())
+    elseif (input == '1') then 
+        return connection.join()
+    elseif (input == '2') then
+        return connection.create()
     end
 end
 
-function connection.create(gameCode)
+function connection.create()
     -- TODO:
     -- ask user if they want to be X or O
     -- create message in keyval.org
     -- await a response
     -- exit out of function to begin gameplay
+    io.write("   1) X (1st player)\n   2) O (2nd player)\n")
+    local input = io.read()
+    if (input ~= '1' and input ~= '2') then 
+        io.write("Please Enter '1' or '2'\n\n")
+        return connection.create()
+    elseif (input == '1') then 
+        connection.localPlayer = 'X'
+        connection.outboundPlayer = 'O'
+    elseif (input == '2') then 
+        connection.localPlayer = 'O'
+        connection.outboundPlayer = 'X'
+    end
+    
+    keyval.set(connection.code, input)
+
+    while (true) do 
+        local response = keyval.get(connection.code)
+        if response == 'A' then 
+            break
+        end
+        socket.sleep(5)
+    end 
+
+    connection.awaiting = false
+    io.write("Connection Succesful!\n")
 end
 
-function connection.join()
+function connection.join(gameCode)
     -- check if message exists in keyval.org 
     -- create a response message in keyval.org
     -- await a response (which will be a first move)
+    local val = keyval.get(connection.code)
+    if (val == nil and val ~= '1' and val ~= '2') then 
+        io.write("No game exists!\n\n")
+        return connection.setup()
+    elseif (val == '1') then 
+        connection.localPlayer = 'O'
+        connection.outboundPlayer = 'X'
+    elseif (val == '2') then 
+        connection.localPlayer = 'X'
+        connection.outboundPlayer = 'O'
+    end
+
+    keyval.set(connection.code, 'A')
+
+    connection.awaiting = true 
+    io.write("Connection Succesful!\n")
+
+
 end
 
 return connection
