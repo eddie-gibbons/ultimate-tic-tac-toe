@@ -77,6 +77,7 @@ end
 
 function board:add(little_board, spot, char)
     board[little_board][spot] = char
+    board.current = spot
 end
 
 return board 

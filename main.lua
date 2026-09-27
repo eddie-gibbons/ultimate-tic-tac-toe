@@ -6,7 +6,9 @@ local board = require("board")
 --       - Game setup
 --       - Play move 
 --       - Receive move 
---    - Create ASCI art for board wins
+
+
+setup()
 
 board:add(1,1, 'X')
 
