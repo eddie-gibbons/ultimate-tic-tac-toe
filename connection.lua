@@ -54,7 +54,7 @@ function connection.create()
     io.write("Connection Succesful!\n")
 end
 
-function connection.join(gameCode)
+function connection.join()
     -- check if message exists in keyval.org 
     -- create a response message in keyval.org
     -- await a response (which will be a first move)
@@ -74,8 +74,20 @@ function connection.join(gameCode)
 
     connection.awaiting = true 
     io.write("Connection Succesful!\n")
+end
 
+function connection.send(board, spot)
+    keyval.set(connection.code, connection.localPlayer .. board .. spot)
+end
 
+function connection.receive()
+    local body = keyval.get(connection.code)
+    if (body[1] ~= connection.outboundPlayer) then 
+        socket.sleep(5)
+        return connection.receive()
+    end
+
+    return (tonumber body[2]), (tonumber body[3])
 end
 
 return connection
