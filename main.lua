@@ -8,4 +8,6 @@ local board = require("board")
 --       - Receive move 
 --    - Create ASCI art for board wins
 
+board:add(1,1, 'X')
+
 board:print()

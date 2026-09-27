@@ -75,5 +75,8 @@ function board:print()
     end
 end
 
+function board:add(little_board, spot, char)
+    board[little_board][spot] = char
+end
 
 return board 
